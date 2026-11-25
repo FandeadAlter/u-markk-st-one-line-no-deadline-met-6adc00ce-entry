@@ -19,6 +19,12 @@ const LINE =
   "I missed the deadline because I was busy writing this excuse, and honestly, it took all week.";
 
 const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
+if (LINE.length < 1 || LINE.length > 200) {
+  throw new Error(`entry line must be 1-200 characters, got ${LINE.length}`);
+}
+if (LINE.includes("\n") || LINE.trim() !== LINE) {
+  throw new Error("entry line must be a single line with no surrounding whitespace");
+}
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, "entry.txt"), LINE + "\n", "utf8");
 console.log(`Wrote ${LINE.length} characters to ${join(outDir, "entry.txt")}`);
